@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Saurabhgk7</title>
+    <link
+      rel="shortcut icon"
+      href="https://www.pngitem.com/pimgs/m/113-1138469_machine-learning-model-png-transparent-png.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: #eff2f9;
+      }
+      .iupload h3 {
+        color: #1b2d6b;
+        font-size: 30px;
+        font-weight: 700;
+      }
+      .img-part {
+        height: 300px;
+        width: 300px;
+        margin: 0px auto;
+      }
+      .image-part {
+        height: 300px;
+        width: 300px;
+        border: 1px solid #1b2d6b;
+      }
+      .image-part img {
+        position: absolute;
+        height: 300px;
+        width: 300px;
+        display: none;
+        padding: 5px;
+      }
+      .image-part #video {
+        display: block;
+        height: 300px;
+        width: 300px;
+        padding: 5px;
+      }
+      .res-part {
+        border: 1px solid #dedede;
+        margin-left: 20px;
+        height: 310px;
+        width: 100%;
+        padding: 5px;
+        margin: 0px auto;
+        overflow: auto;
+      }
+      .res-part2 {
+        border: 1px solid #dedede;
+        height: 310px;
+        width: 100%;
+        padding: 5px;
+        margin: 0px auto;
+      }
+      .resp-img {
+        height: 298px;
+        width: 233px;
+        margin: 0px auto;
+      }
+      .jsonRes {
+        margin-left: 30px;
+      }
+      #send {
+        cursor: pointer;
+      }
+      .btn-part {
+        width: 325px;
+      }
+      textarea,
+      select,
+      .form-control,
+      .custom-select,
+      button.btn,
+      .btn-primary,
+      input[type="text"],
+      input[type="url"],
+      .uneditable-input {
+        border: 1px solid #363e75;
+        outline: 0 !important;
+        border-radius: 0px;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -moz-transition: none;
+        -webkit-transition: none;
+      }
+      textarea:focus,
+      select:focus,
+      .form-control:focus,
+      .btn:focus,
+      .btn-primary:focus,
+      .custom-select:focus,
+      input[type="text"]:focus,
+      .uneditable-input:focus {
+        border: 1px solid #007bff;
+        outline: 0 !important;
+        border-radius: 0px;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -moz-transition: none;
+        -webkit-transition: none;
+      }
+      #loading {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999999;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #363e75;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        left: 50%;
+        margin-left: -4em;
+        display: block;
+        animation: spin 2s linear infinite;
+      }
+      .loader,
+      .loader:after {
+        display: block;
+        position: absolute;
+        top: 50%;
+        margin-top: -4.05em;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .right-part {
+        border: 1px solid #dedede;
+        padding: 5px;
+      }
+      .logo {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        margin-right: 30px;
+        margin-bottom: 30px;
+      }
+      .image-selection {
+        background-color: #fff; /* Set a background color for the image selection section */
+        padding: 20px;
+        position: fixed; /* Set position to fixed */
+        bottom: 0; /* Stick the section to the bottom of the viewport */
+        width: 100%; /* Take up the full width of the viewport */
+      }
+
+      .select-image {
+        width: 100%; /* Make all images take up 100% width of their container */
+        max-width: 150px; /* Set a maximum width for the images to control their size */
+        height: auto; /* Allow the height to adjust proportionally */
+        cursor: pointer;
+        margin-bottom: 10px; /* Add some space between images */
+      }
+
+      .select-image:hover {
+        border: 2px solid #007bff; /* Add a border when the image is hovered */
+      }
+
+      .prediction-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .normal-result {
+        background-color: #28a745; /* Green background for Normal */
+        color: #fff;
+      }
+
+      .adenocarcinoma-result {
+        background-color: #dc3545; /* Red background for Adenocarcinoma */
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main container">
+      <section class="iupload">
+        <h1 class="text-center py-4">Chest Cancer Classification</h1>
+        <div class="row">
+          <div class="img-part col-md-6">
+            <div class="image-part">
+              <video
+                autoplay
+                id="video"
+                poster="https://img.freepik.com/free-vector/health-care-graphic-design_24908-54847.jpg?w=740&t=st=1704714432~exp=1704715032~hmac=72423f642b0765b0785c662ebab63258e67f0351b5b8125f734c6255a416e5af"
+              ></video>
+              <img src="" id="photo" />
+              <canvas style="display: none" id="canvas"></canvas>
+            </div>
+            <div class="btn-part">
+              <form id="upload-data pt-3" class="">
+                <div class="input-group mt-3 row">
+                  <button
+                    type="button"
+                    class="btn btn-primary col-md-5 col-xs-5 ml-3 mr-4"
+                    id="uload"
+                  >
+                    Upload
+                  </button>
+                  <button
+                    id="send"
+                    type="button"
+                    class="btn btn-success col-md-5 col-xs-5"
+                  >
+                    Predict
+                  </button>
+                </div>
+
+                <!-- change url value  -->
+
+                <input
+                  type="hidden"
+                  class="form-control mr-2"
+                  id="url"
+                  placeholder="Enter REST Api url..."
+                  value="../predict"
+                />
+                <input
+                  name="upload"
+                  type="file"
+                  id="fileinput"
+                  style="position: absolute; top: -500px"
+                /><br />
+              </form>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12 right-part">
+            <h5>
+              <center>Prediction Results</center>
+            </h5>
+            <center class="res-part"></center>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="image-selection">
+      <h3 class="text-center py-4">Image Sample</h3>
+      <div class="row">
+        <div class="col-md-6 border-right">
+          <h4 class="text-center">Normal</h4>
+          <div class="d-flex flex-wrap justify-content-around">
+            <img
+              src="{{ url_for('static', filename='assets/normal_image_1.png') }}"
+              class="select-image"
+              data-category="Normal"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/normal_image_2.png') }}"
+              class="select-image"
+              data-category="Normal"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/normal_image_3.png') }}"
+              class="select-image"
+              data-category="Normal"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/normal_image_4.png') }}"
+              class="select-image"
+              data-category="Normal"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/normal_image_5.png') }}"
+              class="select-image"
+              data-category="Normal"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4 class="text-center">Adenocarcinoma</h4>
+          <div class="d-flex flex-wrap justify-content-around">
+            <img
+              src="{{ url_for('static', filename='assets/cancer_image_1.png') }}"
+              class="select-image"
+              data-category="Adenocarcinoma"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/cancer_image_2.png') }}"
+              class="select-image"
+              data-category="Adenocarcinoma"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/cancer_image_3.png') }}"
+              class="select-image"
+              data-category="Adenocarcinoma"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/cancer_image_4.png') }}"
+              class="select-image"
+              data-category="Adenocarcinoma"
+            />
+            <img
+              src="{{ url_for('static', filename='assets/cancer_image_5.png') }}"
+              class="select-image"
+              data-category="Adenocarcinoma"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="loading"><div class="loader"></div></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      var mybtn = document.getElementById("startbtn");
+      var myvideo = document.getElementById("video");
+      var mycanvas = document.getElementById("canvas");
+      var myphoto = document.getElementById("photo");
+      var base_data = "";
+
+      function sendRequest(base64Data) {
+        var type = "json";
+        if (base64Data != "" || base64Data != null) {
+          if (type == "imgtobase") {
+            $(".res-part").html("");
+            $(".res-part").html(base64Data);
+          } else if (type == "basetoimg") {
+            var imageData = $("#imgstring").val();
+            $(".res-part").html("");
+            $(".res-part").append(
+              "<img src='data:image/jpeg;base64," + imageData + "' alt='' />"
+            );
+          } else {
+            var url = $("#url").val();
+            $("#loading").show();
+            $.ajax({
+              url: url,
+              type: "post",
+              cache: false,
+              async: true,
+              crossDomain: true,
+              headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+              data: JSON.stringify({ image: base64Data }),
+              success: function (res) {
+                $(".res-part").html("");
+                $(".res-part2").html("");
+                try {
+                  var imageData = res[1].image;
+                  if (imageData.length > 100) {
+                    if (imageData.length > 10) {
+                      $(".res-part2").append(
+                        "<img class='resp-img' src='data:image/jpeg;base64," +
+                          imageData +
+                          "' alt='' />"
+                      );
+                    }
+                  }
+                } catch (e) {}
+                $(".res-part").html(
+                  "<pre>" + JSON.stringify(res[0], undefined, 2) + "</pre>"
+                );
+                $("#loading").hide();
+              },
+            });
+          }
+        }
+      }
+
+      function selectImage(category, imagePath) {
+        var img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+          var canvas = document.createElement("CANVAS");
+          var ctx = canvas.getContext("2d");
+          canvas.height = this.height;
+          canvas.width = this.width;
+          ctx.drawImage(this, 0, 0);
+          base_data = canvas
+            .toDataURL("image/jpeg", 1.0)
+            .replace(/^data:image.+;base64,/, "");
+          canvas = null;
+
+          // Update the displayed image in the upload part
+          $("#photo").attr("src", imagePath);
+          $("#photo").show();
+          $("#video").hide();
+        };
+        img.src = imagePath;
+      }
+
+      function showPredictionResult(result) {
+        var predictionBox = $("<div>").addClass("prediction-box");
+        if (result === "Normal") {
+          predictionBox.addClass("normal-result");
+        } else if (result === "Adenocarcinoma") {
+          predictionBox.addClass("adenocarcinoma-result");
+        }
+        predictionBox.text(result);
+
+        $(".res-part2").html(predictionBox);
+      }
+
+      $(document).ready(function () {
+        $("#loading").hide();
+
+        $("#send").click(function (evt) {
+          sendRequest(base_data);
+        });
+
+        $("#uload").click(function (evt) {
+          $("#fileinput").focus().trigger("click");
+        });
+        $("#fileinput").change(function () {
+          if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var url = e.target.result;
+              var img = new Image();
+              img.crossOrigin = "Anonymous";
+              img.onload = function () {
+                var canvas = document.createElement("CANVAS");
+                var ctx = canvas.getContext("2d");
+                canvas.height = this.height;
+                canvas.width = this.width;
+                ctx.drawImage(this, 0, 0);
+                base_data = canvas
+                  .toDataURL("image/jpeg", 1.0)
+                  .replace(/^data:image.+;base64,/, "");
+                canvas = null;
+              };
+              img.src = url;
+              $("#photo").attr("src", url);
+              $("#photo").show();
+              $("#video").hide();
+            };
+            reader.readAsDataURL(this.files[0]);
+          }
+        });
+
+        // Add click event for image selection...
+        $(".select-image").click(function () {
+          var category = $(this).data("category");
+          var imagePath = $(this).attr("src");
+          selectImage(category, imagePath);
+        });
+
+        //Empty the placeholder after predictions...
+        $("#send").click(function (evt) {
+          sendRequest(base_data);
+          clearUploadSection(); // Call the function to clear the upload section
+        });
+      });
+    </script>
+  </body>
+</html>
