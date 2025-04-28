@@ -7,7 +7,7 @@ This project spans the entire ML pipeline, from data preprocessing and model tra
 
 In conclusion, this adenocarcinoma cancer detection project demonstrates the convergence of cutting-edge technologies, machine learning algorithms, and cloud computing to contribute to the advancement of medical diagnostics. By providing an end-to-end solution, it aims to make a meaningful impact on the early detection and management of adenocarcinoma, ultimately improving patient outcomes and advancing the field of healthcare technology.
 
-To see the live deployement app visit : `https://endtoend-chest-cancer-detection-using-mlflow-dvc-saurabhgk7.streamlit.app/`
+
 
 ### Modular Coding
 
